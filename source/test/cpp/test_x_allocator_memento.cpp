@@ -6,7 +6,7 @@
 
 using namespace xcore;
 
-extern xalloc* gSystemAllocator;
+extern alloc_t* gSystemAllocator;
 
 
 class x_memento_testreporter : public x_memento_reporter
