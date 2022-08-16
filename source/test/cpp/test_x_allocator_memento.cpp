@@ -1,8 +1,8 @@
-#include "xbase/x_allocator.h"
-#include "xbase/x_console.h"
-#include "xdealloc/x_allocator_memento.h"
+#include "cbase/c_allocator.h"
+#include "cbase/c_console.h"
+#include "cdealloc/c_allocator_memento.h"
 
-#include "xunittest/xunittest.h"
+#include "cunittest/xunittest.h"
 
 using namespace xcore;
 
