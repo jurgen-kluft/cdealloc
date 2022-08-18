@@ -2,7 +2,7 @@
 #include "cbase/c_allocator.h"
 #include "cbase/c_console.h"
 
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 #include "cunittest/private/ut_ReportAssert.h"
 
 UNITTEST_SUITE_LIST(xDeallocUnitTest);
@@ -45,7 +45,7 @@ namespace xcore
 	public:
 							TestAllocator(alloc_t* allocator) : mAllocator(allocator) { }
 
-		virtual const char*	name() const										{ return "xbase unittest test heap allocator"; }
+		virtual const char*	name() const										{ return "cbase unittest test heap allocator"; }
 
 		virtual void*		allocate(xsize_t size, u32 alignment)
 		{
@@ -73,7 +73,7 @@ xcore::UnitTestAssertHandler gAssertHandler;
 
 bool gRunUnitTest(UnitTest::TestReporter& reporter)
 {
-	xbase::x_Init();
+	cbase::x_Init();
 
 #ifdef TARGET_DEBUG
 	xcore::xasserthandler::sRegisterHandler(&gAssertHandler);
@@ -92,7 +92,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
 	int r = UNITTEST_SUITE_RUN(reporter, xDeallocUnitTest);
 	if (UnitTest::GetNumAllocations()!=0)
 	{
-		reporter.reportFailure(__FILE__, __LINE__, "xunittest", "memory leaks detected!");
+		reporter.reportFailure(__FILE__, __LINE__, "cunittest", "memory leaks detected!");
 		r = -1;
 	}
 
@@ -100,7 +100,7 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
 
 	UnitTest::SetAllocator(NULL);
 
-	xbase::x_Exit();
+	cbase::x_Exit();
 	return r==0;
 }
 
