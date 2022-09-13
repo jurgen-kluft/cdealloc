@@ -5,7 +5,7 @@
 
 /// ! Inspired by Fortify - Simon P Bullen.
 
-namespace xcore
+namespace ncore
 {
 	namespace memento
 	{

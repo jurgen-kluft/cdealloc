@@ -8,7 +8,7 @@
 UNITTEST_SUITE_LIST(xDeallocUnitTest);
 UNITTEST_SUITE_DECLARE(xDeallocUnitTest, x_allocator_memento);
 
-namespace xcore
+namespace ncore
 {
 	// Our own assert handler
 	class UnitTestAssertHandler : public xcore::xasserthandler
