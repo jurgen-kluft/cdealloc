@@ -120,7 +120,7 @@
 //==============================================================================
 namespace ncore
 {
-	class x_memento_reporter
+	class memento_reporter_t
 	{
 	public:
 		virtual void			print(const char* format, const char* str) = 0;
@@ -128,30 +128,28 @@ namespace ncore
 		virtual void			print(const char* format, int n, int value1, int value2 = 0, int value3 = 0, int value4 = 0) = 0;
 	};
 
-
 	/// Forward declare
-	class x_memento;
+	class memento_t;
 
-
-	class x_memento_handler
+	class memento_handler_t
 	{
 	public:
-		virtual void			breakpoint(x_memento*) = 0;
+		virtual void			breakpoint(memento_t*) = 0;
 	};
 
 
-	class x_memento : public alloc_t
+	class memento_t: public alloc_t
 	{
 	public:
-		virtual void*			allocate(xsize_t size, u32 alignment) = 0;
-		virtual void*			reallocate(void* ptr, xsize_t size, u32 alignment) = 0;
+		virtual void*			allocate(u32 size, u32 alignment) = 0;
+		virtual void*			reallocate(void* ptr, u32 size, u32 alignment) = 0;
 		virtual void			deallocate(void* ptr) = 0;
 		virtual void			release() = 0;
 
-		virtual void*			allocate(xsize_t size, u32 alignment, const char* label, int var) = 0;
+		virtual void*			allocate(u32 size, u32 alignment, const char* label, int var) = 0;
 
-		virtual void			set_reporter(x_memento_reporter*) = 0;
-		virtual void			set_handler(x_memento_handler*) = 0;
+		virtual void			set_reporter(memento_reporter*) = 0;
+		virtual void			set_handler(memento_handler_t*) = 0;
 
 		virtual void			paranoia(int) = 0;
 		virtual void			paranoidAt(int) = 0;
@@ -168,7 +166,7 @@ namespace ncore
 		virtual void			break_on_free(void*) = 0;
 	};
 
-	x_memento*				gCreateMementoAllocator(alloc_t* internal_mem_allocator);
+	memento_t*				gCreateMementoAllocator(alloc_t* internal_mem_allocator);
 
 };
 

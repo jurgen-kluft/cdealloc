@@ -6,7 +6,7 @@
 #include "cunittest/cunittest.h"
 
 UNITTEST_SUITE_LIST(cUnitTest);
-UNITTEST_SUITE_DECLARE(cUnitTest, x_allocator_memento);
+UNITTEST_SUITE_DECLARE(cUnitTest, allocator_memento);
 
 namespace ncore
 {

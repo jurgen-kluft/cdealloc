@@ -6,10 +6,8 @@
 
 using namespace ncore;
 
-extern alloc_t* gSystemAllocator;
 
-
-class x_memento_testreporter : public x_memento_reporter
+class memento_testreporter : public x_memento_reporter
 {
 public:
 	virtual void print(const char* format, const char* str) 
@@ -40,7 +38,7 @@ public:
 };
 
 
-class x_memento_testhandler : public x_memento_handler
+class memento_testhandler : public x_memento_handler
 {
 public:
 	virtual void			breakpoint(x_memento* m)
@@ -50,18 +48,17 @@ public:
 };
 
 
-UNITTEST_SUITE_BEGIN(x_allocator_memento)
+UNITTEST_SUITE_BEGIN(allocator_memento)
 {
 	UNITTEST_FIXTURE(main)
 	{
-		x_memento_testreporter	memento_reporter;
-		x_memento_testhandler	memento_handler;
+		memento_testreporter	memento_reporter;
+		memento_testhandler	memento_handler;
 		x_memento*				memento_allocator;
 
 		UNITTEST_FIXTURE_SETUP()
 		{
-			memento_allocator = gCreateMementoAllocator(gSystemAllocator);
-			memento_allocator->set_handler(&memento_handler);
+		memento_allocator->set_handler(&memento_handler);
 			memento_allocator->set_reporter(&memento_reporter);
 			memento_allocator->set_freelist(0, 0, 0);
 		}
