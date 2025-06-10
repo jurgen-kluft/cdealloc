@@ -2,36 +2,43 @@ package cdealloc
 
 import (
 	cbase "github.com/jurgen-kluft/cbase/package"
-	"github.com/jurgen-kluft/ccode/denv"
-	centry "github.com/jurgen-kluft/centry/package"
+	denv "github.com/jurgen-kluft/ccode/denv"
 	cunittest "github.com/jurgen-kluft/cunittest/package"
 )
 
-// GetPackage returns the package object of 'cdealloc'
+const (
+	repo_path = "github.com\\jurgen-kluft"
+	repo_name = "cdealloc"
+)
+
 func GetPackage() *denv.Package {
-	// Dependencies
+	name := repo_name
+
+	// dependencies
 	cunittestpkg := cunittest.GetPackage()
-	centrypkg := centry.GetPackage()
 	cbasepkg := cbase.GetPackage()
 
-	// The main (cdealloc) package
-	mainpkg := denv.NewPackage("cdealloc")
+	// main package
+	mainpkg := denv.NewPackage(repo_path, repo_name)
 	mainpkg.AddPackage(cunittestpkg)
-	mainpkg.AddPackage(centrypkg)
 	mainpkg.AddPackage(cbasepkg)
 
-	// 'cdealloc' library
-	mainlib := denv.SetupDefaultCppLibProject("cdealloc", "github.com\\jurgen-kluft\\cdealloc")
-	mainlib.Dependencies = append(mainlib.Dependencies, cbasepkg.GetMainLib())
+	// main library
+	mainlib := denv.SetupCppLibProject(mainpkg, name)
+	mainlib.AddDependencies(cbasepkg.GetMainLib()...)
 
-	// 'cdealloc' unittest project
-	maintest := denv.SetupDefaultCppTestProject("cdealloc_test", "github.com\\jurgen-kluft\\cdealloc")
-	maintest.Dependencies = append(maintest.Dependencies, cunittestpkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, centrypkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, cbasepkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, mainlib)
+	// test library
+	testlib := denv.SetupCppTestLibProject(mainpkg, name)
+	testlib.AddDependencies(cbasepkg.GetTestLib()...)
+	testlib.AddDependencies(cunittestpkg.GetTestLib()...)
+
+	// unittest project
+	maintest := denv.SetupCppTestProject(mainpkg, name)
+	maintest.AddDependencies(cunittestpkg.GetMainLib()...)
+	maintest.AddDependency(testlib)
 
 	mainpkg.AddMainLib(mainlib)
+	mainpkg.AddTestLib(testlib)
 	mainpkg.AddUnittest(maintest)
 	return mainpkg
 }
